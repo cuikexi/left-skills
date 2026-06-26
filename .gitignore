@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 依赖(技术栈定后补全)
+node_modules/
+vendor/
+
+# 构建产物
+dist/
+bin/
+build/
+*.exe
+
+# 本地环境
+.env
+.env.local
