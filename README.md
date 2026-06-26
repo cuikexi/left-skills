@@ -43,7 +43,7 @@ evolve(AI 据 issue+lint 生成 diff,人审批)→ 改 skill → 回 lint
 
 ## 技术栈
 
-待定。候选:Go 单二进制(参考 skillshare)/ TypeScript npm(参考 OpenSpec、superpowers-zh)。
+**TypeScript** + 单文件 bundle .js。给 AI 用的工具生态(GitHub 实测:MCP servers / cline / OpenSpec / continue 全 TS)主流选择;随 skill 生态分发自然、Claude Code hook 原生、lint 规则迭代快。定位与选型依据见 [docs/hyperresearch-report.md](docs/hyperresearch-report.md)。
 
 ## 状态
 

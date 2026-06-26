@@ -33,9 +33,15 @@ left-skills = skill 生命周期管理工具(shift-left for skills)。五环:lin
 - 中文交流,代码注释中文
 - 做开源吸用户,但别让 ta 低估冷启动:技术 30% / 冷启动 70%;skillshare 半年 1831 commits 才 2312★
 
-## 技术栈(已定:Go 单二进制)
+## 技术栈(已定:TypeScript)
 
-**Go 单二进制**(2026-06-26 据 hyperresearch 报告 `docs/hyperresearch-report.md` 定):冷启动是命门(技术 30%/冷启动 70%),Go 给最低分发摩擦(单静态二进制、零运行时依赖、brew/curl 一键装),对不保证装了 node/python 的 polyglot skill 作者最友好;skillshare 同款 + 现代 lint CLI(golangci-lint/ruff/biome)全单二进制。否决 TS(node 运行时摩擦)、Python(版本碎片+PyInstaller 脆弱)。AI 集成(evolve 调 LLM)=HTTP 语言无关,YAML 解析三栈皆成熟,无差异。CLI 用 `cobra`/`urfave/cli`,YAML 用 `gopkg.in/yaml.v3`。⚠️ 报告竞品数据(agentskills.io 字段/OpenSpec star)部分待联网核实,不影响 Go 结论。
+**TypeScript + 单文件 bundle .js**(2026-06-26 重定,推翻此前 Go 结论):
+- **定位升级**:left-skills 是给 AI 用的、管 skill 的工具,多机制(hook/skill/CLI)组合、一份核心多入口、随 skill 生态分发(skillshare 同步 / `.claude/skills/`)、不走 MCP。Go 的"单二进制冷启动分发(brew/curl)"前提失效。
+- **GitHub 实测**:"给 AI 用的工具"生态 TS 主导——MCP servers(88k★)、cline(64k★)、OpenSpec(57k★)、continue(34k★)全 TS;left-skills 画像最近邻 OpenSpec(TS),不是 skillshare(Go,同步工具旧画像)。
+- **TS 优势**:随 skill 分发自然(单 bundle .js 无 node_modules,skillshare 同步 SKILL.md + 一个 .js);Claude Code hook 原生 JS;lint 规则迭代快(MVP 关键);node 依赖可接受(实测 top 给 AI 用工具都 TS)。
+- **否决**:Go(分发命门前提失效 + 二进制不随 skill 自然同步);Rust(仅 open-interpreter 一例且 agent 本体吃性能,轻量 lint 用不上 + 开发慢拖 MVP)。
+- **库选型**:bundle `tsup`/`esbuild`;frontmatter `gray-matter`;CLI `commander`。
+- ⚠️ 实测数据见 `docs/hyperresearch-report.md`;本轮 GitHub API 实测(obra/superpowers 239k★、open-interpreter=Rust 数值偏高/反直觉,可复核)。
 
 ## MVP lint 规则初稿(起点,待细化)
 
@@ -64,7 +70,7 @@ left-skills = skill 生命周期管理工具(shift-left for skills)。五环:lin
 ## 待办
 
 - [x] 查重名(2026-06-26):`left-skills` npm/PyPI 均 404 可用,GitHub 无同领域竞品(匿名 API 限流未跑全,用户拍板采用);备选 skilllint **禁用**(撞 `bitflight-devops/skilllint`★6 同领域 linter + `bueti/skilllint` Go/SKILL.md,且 PyPI 200 占用);skillshift(GitHub 64 个均无关求职/教育)、skillloop(npm/PyPI 404)仅无关同名,可作 plan B。
-- [x] 确认技术栈(2026-06-26,Go 单二进制,据 hyperresearch 报告)
+- [x] 确认技术栈(2026-06-26,TypeScript;定位升级为"给 AI 用/多机制/随 skill 生态"后,据 GitHub 实测重定,推翻此前 Go)
 - [ ] 细化 lint 规则集 + 严重度
 - [ ] 写 MVP + fixture 测试
 - [x] initial commit(2026-06-26,f9ac3fa → cuikexi/left-skills)
