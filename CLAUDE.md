@@ -33,9 +33,9 @@ left-skills = skill 生命周期管理工具(shift-left for skills)。五环:lin
 - 中文交流,代码注释中文
 - 做开源吸用户,但别让 ta 低估冷启动:技术 30% / 冷启动 70%;skillshare 半年 1831 commits 才 2312★
 
-## 技术栈(推荐,待用户定)
+## 技术栈(已定:Go 单二进制)
 
-倾向 **Go 单二进制**(skillshare 同款):跨平台单文件、无运行时依赖、适合反复调用的本地 lint 工具。TS/npm 也可(openspec/superpowers-zh 同款),但多一层 node 依赖。
+**Go 单二进制**(2026-06-26 据 hyperresearch 报告 `docs/hyperresearch-report.md` 定):冷启动是命门(技术 30%/冷启动 70%),Go 给最低分发摩擦(单静态二进制、零运行时依赖、brew/curl 一键装),对不保证装了 node/python 的 polyglot skill 作者最友好;skillshare 同款 + 现代 lint CLI(golangci-lint/ruff/biome)全单二进制。否决 TS(node 运行时摩擦)、Python(版本碎片+PyInstaller 脆弱)。AI 集成(evolve 调 LLM)=HTTP 语言无关,YAML 解析三栈皆成熟,无差异。CLI 用 `cobra`/`urfave/cli`,YAML 用 `gopkg.in/yaml.v3`。⚠️ 报告竞品数据(agentskills.io 字段/OpenSpec star)部分待联网核实,不影响 Go 结论。
 
 ## MVP lint 规则初稿(起点,待细化)
 
@@ -64,10 +64,10 @@ left-skills = skill 生命周期管理工具(shift-left for skills)。五环:lin
 ## 待办
 
 - [x] 查重名(2026-06-26):`left-skills` npm/PyPI 均 404 可用,GitHub 无同领域竞品(匿名 API 限流未跑全,用户拍板采用);备选 skilllint **禁用**(撞 `bitflight-devops/skilllint`★6 同领域 linter + `bueti/skilllint` Go/SKILL.md,且 PyPI 200 占用);skillshift(GitHub 64 个均无关求职/教育)、skillloop(npm/PyPI 404)仅无关同名,可作 plan B。
-- [ ] 确认技术栈(Go 推荐)
+- [x] 确认技术栈(2026-06-26,Go 单二进制,据 hyperresearch 报告)
 - [ ] 细化 lint 规则集 + 严重度
 - [ ] 写 MVP + fixture 测试
-- [ ] initial commit
+- [x] initial commit(2026-06-26,f9ac3fa → cuikexi/left-skills)
 
 ## 未来路线图(MVP 后,不进 MVP)
 
