@@ -1,5 +1,7 @@
 # left-skills
 
+[![Star History Chart](https://api.star-history.com/svg?repos=cuikexi/left-skills&type=Date)](https://star-history.com/#cuikexi/left-skills&date)
+
 > Shift-left for AI CLI skills — 让 skill 在投入使用前就变好,而不是等用户撞 bug。
 
 `left-skills` 是一个 **skill 生命周期管理**工具,覆盖 skill 从发现到进化的闭环。和 [skillshare](https://github.com/runkids/skillshare)(分发)、[OpenSpec](https://github.com/Fission-AI/OpenSpec)(spec 工作流)、[superpowers](https://github.com/obra/superpowers)(方法论内容)互补,不竞争——它们管 skill 怎么分发/怎么用,`left-skills` 管 **skill 本身怎么变好**。
