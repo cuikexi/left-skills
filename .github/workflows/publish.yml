@@ -1,21 +1,23 @@
 name: publish
 
-# 触发:push tag v* (如 v0.1.0) → CI 自动 build + npm publish + GitHub release
+# 触发:push tag v* → CI 自动 build + npm publish + GitHub release
+# 第一次用 NPM_TOKEN(包不存在,Trusted Publishing 配不了);包上架后改 OIDC(无 token)
 on:
   push:
     tags:
       - 'v*'
 
+permissions:
+  contents: write  # 建 GitHub release 需要
+
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # 建GitHub release需要
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
