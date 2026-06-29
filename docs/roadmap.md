@@ -15,13 +15,13 @@ roadmap       v1a 静态好坏  MVP usage  v1b evolve  v2 inspiration
 
 ## 阶段表
 
-| 阶段 | 做什么 | 解你的 | 完成结果 |
+| 阶段 | 做什么 | 解你的 | 状态 / 完成结果 |
 |---|---|---|---|
-| **MVP · usage** | hook 埋点统计 skill 调用(手动 / AI / 提及),存数据库,出报告 | 痛点2 / 需求2 / 流程"度量" | skill 使用报告 |
-| **v1a · 静态好坏** | 对齐 skills-ref 结构 + 补深度规则(metadata/argument-hint/token) | 需求1(静态)/ 流程"定义好坏" | 静态质量分,并入报告 |
-| **v1b · evolve** | AI 据 usage+静态+bug 痕迹生成 skill 改进 diff,**人审**应用 | 痛点3 / 需求3 / 流程"改进" | 改进 diff,不自动改 |
-| **v2 · inspiration** | 扫会话找"反复手动做但没 skill"的重复模式,AI 给候选 skill 草稿 | 痛点1 | skill 草稿,人审入库 |
-| **future** | clean(删冗余)/ migrate(重命名拆分)作为 evolve 的 diff 类型;跨 Cursor/Codex 日志 | 生命周期完整 | — |
+| **MVP · usage** ✅ | hook 埋点统计 skill 调用(手动 / AI / 提及),存数据库,出报告 | 痛点2 / 需求2 / 流程"度量" | ✅ 已完成(archived,23/23,真值验通过) |
+| **v1a · 静态好坏** | 对齐 skills-ref 结构 + 补深度规则(metadata/argument-hint/token) | 需求1(静态)/ 流程"定义好坏" | 低优先级(撞 skills-ref/skillshare,要做得并入 usage 报告) |
+| **v1b · evolve** | AI 据 usage+静态+bug 痕迹生成 skill 改进 diff,**人审**应用 | 痛点3 / 需求3 / 流程"改进" | 下一个开发阶段(接 usage 闭环,要 LLM+diff+人审) |
+| **v2 · inspiration** | 扫会话找"反复手动做但没 skill"的重复模式,AI 给候选 skill 草稿 | 痛点1 | 规划(最难,留后) |
+| **future** | clean(删冗余)/ migrate(重命名拆分)作为 evolve 的 diff 类型;跨 Codex 适配 | 生命周期完整 | 规划(Codex 后扩,Claude 先) |
 
 ## MVP 数据源(✅ 已 spike 验证,2026-06-29)
 

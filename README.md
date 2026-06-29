@@ -2,61 +2,62 @@
 
 [![Star History Chart](https://api.star-history.com/svg?repos=cuikexi/left-skills&type=Date)](https://star-history.com/#cuikexi/left-skills&date)
 
-> Shift-left for AI CLI skills — 先度量 skill 用没用,再决定改/删,而不是等用户撞 bug。
+> 知道你的 AI skill 用没用、哪些从没被调用 —— Claude Code hook 埋点统计 skill 使用。
 
-`left-skills` 是一个 **skill 生命周期管理**工具,覆盖 skill 从发现到进化的闭环。和 [skillshare](https://github.com/runkids/skillshare)(分发)、[OpenSpec](https://github.com/Fission-AI/OpenSpec)(spec 工作流)、[superpowers](https://github.com/obra/superpowers)(方法论内容)互补,不竞争——它们管 skill 怎么分发/怎么用,`left-skills` 管 **skill 本身怎么变好**。
+## Install
 
-## MVP:skill 调用使用统计(usage)
+还没发 npm,目前从源码装:
 
-你写完 skill 不知道 AI 有没有调用、哪些从没用过?left-skills 通过 Claude Code hook 埋点统计 skill 调用,出使用报告。
-
-**三数据源**(hook 实测验证):
-- 手动 `/slash` → `UserPromptExpansion.command_name`
-- AI 调 Skill 工具 → `PreToolUse.tool_input.skill`
-- 自然语言提 skill → `UserPromptSubmit.prompt` 文本匹配
-
-**用法**:
 ```bash
-left-skills usage          # 人看报告(每 skill 手动/AI/提及 分开 + 从未调用 ⚠)
-left-skills usage --json   # AI 用(JSON)
-left-skills install        # 输出 hook 配置片段
+git clone https://github.com/cuikexi/left-skills
+cd left-skills
+npm install
+npm run build
+npm link        # 让 left-skills 进 PATH
 ```
 
-**诚实边界**:AI 纯 progressive disclosure 自主激活(不走 Skill 工具)抓不到;只 Claude Code(Cursor/Codex 后扩)。
+加 hook 配置(必需,否则没数据):
 
-安装见 [docs/install.md](docs/install.md)。
-
-## 五环(生命周期)
-
-```
-inspiration  从会话历史挖"该写 skill"
-      ↓ [写 skill]
-lint ─────────→ rating(静态分)
-      ↓ [用 skill]
-usage ────────→ rating(运行时)  ← MVP
-      ↓
-bug/issue ───→ evolve(AI 据 issue+usage 生成 diff,人审批)→ 改 skill → 回 usage
+```bash
+left-skills install   # 输出 hook 片段,复制进 ~/.claude/settings.json 的 hooks 字段
 ```
 
-| 环 | 做什么 | 状态 |
-|---|---|---|
-| **usage** | hook 埋点统计 skill 调用(手动 / AI / 提及),出报告 | **MVP ✅** |
-| lint | 静态质量(name / description / token,对齐 skills-ref) | v1a |
-| rating | 评分(静态 lint + 运行时 usage) | 规划(usage 是运行时部分) |
-| bug/issue | 会话关键字 → 自动建 GitHub Issue(per-skill 标签) | 规划 |
-| evolve | AI 据 issue+usage 生成改进 diff,人 review(**非自动改**) | 规划 |
-| inspiration | 扫会话历史找重复模式,建议抽 skill | 规划 |
+详见 [docs/install.md](docs/install.md)。
 
-roadmap 详见 [docs/roadmap.md](docs/roadmap.md)。
+## Usage
 
-## 技术栈
+```bash
+left-skills usage            # 人看报告
+left-skills usage --json     # AI 用(JSON)
+left-skills usage --since 7  # 近 7 天
+```
 
-**TypeScript** + 单文件 bundle .js。给 AI 用的工具生态(GitHub 实测:MCP servers / cline / OpenSpec / continue 全 TS)主流;随 skill 生态分发、Claude Code hook 原生、迭代快。选型依据见 [docs/hyperresearch-report.md](docs/hyperresearch-report.md)。
+报告示例:
 
-## 状态
+```
+skill 调用报告(14 个 skill)
+────────────────────────────────────
+  3  grill-me            (手动1 + AI1 + 提及1,最近 今天)
+  0  gitlab-ci-generate  ⚠ 从未调用
+```
 
-**MVP usage 跑通**(23/23 task 完成,真值验通过)。研究背景见 [docs/research.md](docs/research.md),MVP 设计见 [docs/mvp-prompt.md](docs/mvp-prompt.md)。
+## 它做什么
+
+- hook 埋点统计 skill 调用,三数据源:
+  - 手动 `/slash` → `UserPromptExpansion.command_name`
+  - AI 调 Skill 工具 → `PreToolUse.tool_input.skill`
+  - 自然语言提 skill → `UserPromptSubmit.prompt` 文本匹配
+- 存 `~/.left-skills/usage.json`
+- 出报告:每 skill 调用次数(手动 / AI / 提及**分开标**) + 最近时间 + 从未调用 ⚠
+
+**边界**:AI 纯 progressive disclosure 自主激活(不走 Skill 工具)抓不到;只 Claude Code(Codex 后扩)。
+
+## More
+
+- [roadmap](docs/roadmap.md) — 五环(usage → lint → evolve → inspiration)+ BDD
+- [研究依据](docs/research.md) / [技术选型报告](docs/hyperresearch-report.md)
+- 互补 [skillshare](https://github.com/runkids/skillshare)(分发)/ [OpenSpec](https://github.com/Fission-AI/OpenSpec)(spec)/ [superpowers](https://github.com/obra/superpowers)(方法论),不竞争
 
 ## License
 
-MIT(计划)
+MIT
