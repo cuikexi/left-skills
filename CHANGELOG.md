@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7 (2026-06-29)
+
+- 升 node 24 / npm 11(Trusted Publishing 要 npm 11.5.1+,之前 npm 10.9 不支持)
+
 ## 0.1.6 (2026-06-29)
 
 - npm publish --provenance(显式触发 OIDC)
