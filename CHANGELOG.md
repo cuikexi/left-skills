@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 (2026-06-29)
+
+- OIDC Trusted Publishing(删 NPM_TOKEN secret,npm 纯 OIDC)
+
 ## 0.1.2 (2026-06-29)
 
 - 修 repository.url 格式(git+https,Trusted Publisher exact match)
