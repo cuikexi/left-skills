@@ -1,13 +1,13 @@
 name: publish
 
-# 触发:push tag v* → CI 自动 build + npm publish + GitHub release
-# 第一次用 NPM_TOKEN(包不存在,Trusted Publishing 配不了);包上架后改 OIDC(无 token)
+# 触发:push tag v* → CI 自动 build + npm publish(OIDC Trusted Publishing,无 NPM_TOKEN)+ GitHub release
 on:
   push:
     tags:
       - 'v*'
 
 permissions:
+  id-token: write  # OIDC Trusted Publishing 必需
   contents: write  # 建 GitHub release 需要
 
 jobs:
@@ -21,9 +21,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --access public  # OIDC 自动认证,无 NPM_TOKEN;provenance 自动
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
