@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5 (2026-06-29)
+
+- workflow 用 $NPM_CONFIG_USERCONFIG 路径删 _authToken(之前操作 cwd .npmrc 错)
+
 ## 0.1.4 (2026-06-29)
 
 - workflow 强制 OIDC(unset NODE_AUTH_TOKEN + 删 .npmrc _authToken)+ debug env

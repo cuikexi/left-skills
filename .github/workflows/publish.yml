@@ -22,20 +22,20 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Debug env(看 NODE_AUTH_TOKEN 哪来的)
+      - name: Debug env(看 NODE_AUTH_TOKEN / OIDC)
         run: |
           echo "=== env (token 相关) ==="
           env | grep -i token || echo "(无 token env)"
-          echo "=== .npmrc(setup-node 写) ==="
-          cat .npmrc || echo "(无 .npmrc)"
+          echo "=== .npmrc (NPM_CONFIG_USERCONFIG=$NPM_CONFIG_USERCONFIG) ==="
+          cat "$NPM_CONFIG_USERCONFIG" || echo "(无 .npmrc)"
 
       - name: npm publish(强制 OIDC:unset token + 删 .npmrc _authToken)
         run: |
           unset NODE_AUTH_TOKEN
-          sed -i '/_authToken/d' .npmrc || true
+          sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG" || true
           echo "=== .npmrc(删 _authToken 后) ==="
-          cat .npmrc
-          echo "=== npm publish(OIDC)==="
+          cat "$NPM_CONFIG_USERCONFIG"
+          echo "=== NODE_AUTH_TOKEN(应空): ${NODE_AUTH_TOKEN:-<empty>} ==="
           npm publish --access public
 
       - name: Create GitHub Release
