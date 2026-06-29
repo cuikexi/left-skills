@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 (2026-06-29)
+
+- workflow 强制 OIDC(unset NODE_AUTH_TOKEN + 删 .npmrc _authToken)+ debug env
+
 ## 0.1.3 (2026-06-29)
 
 - OIDC Trusted Publishing(删 NPM_TOKEN secret,npm 纯 OIDC)
