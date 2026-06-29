@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.7 (2026-06-29)
+## 0.1.8 (2026-06-30)
+
+- 修 `--version` 硬编码(动态读 package.json)
+
+## 0.1.7 (2026-06-30)
 
 - 升 node 24 / npm 11(Trusted Publishing 要 npm 11.5.1+,之前 npm 10.9 不支持)
 
