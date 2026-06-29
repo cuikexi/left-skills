@@ -17,5 +17,25 @@
     "typescript": "^5.4.0",
     "tsup": "^8.0.0",
     "@types/node": "^20.0.0"
+  },
+  "author": "cuikexi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cuikexi/left-skills"
+  },
+  "keywords": [
+    "claude-code",
+    "skill",
+    "agent-skills",
+    "usage",
+    "cli",
+    "shift-left"
+  ],
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
   }
 }

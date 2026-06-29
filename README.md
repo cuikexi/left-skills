@@ -1,30 +1,47 @@
+<div align="center">
+
 # left-skills
 
-[![Star History Chart](https://api.star-history.com/svg?repos=cuikexi/left-skills&type=Date)](https://star-history.com/#cuikexi/left-skills&date)
+**shift-left for skills** — 在 skill 投入使用前就度量它用没用,而不是等用户撞 bug。
 
-> 知道你的 AI skill 用没用、哪些从没被调用 —— Claude Code hook 埋点统计 skill 使用。
+[![npm version](https://img.shields.io/npm/v/left-skills)](https://www.npmjs.com/package/left-skills)
+[![license](https://img.shields.io/npm/l/left-skills)](./LICENSE)
+[![stars](https://img.shields.io/github/stars/cuikexi/left-skills)](https://github.com/cuikexi/left-skills)
 
-## Install
+</div>
 
-还没发 npm,目前从源码装:
+## 命名由来
 
-```bash
-git clone https://github.com/cuikexi/left-skills
-cd left-skills
-npm install
-npm run build
-npm link        # 让 left-skills 进 PATH
+`left-skills` = **shift-left for skills**。把质量/度量左移到"投入使用前"——你写完 skill,先看它用没用、写得好不好,而不是等用户撞 bug 才发现。
+
+## How It Works
+
+```
+打 /skill 或 AI 调 skill
+    │ Claude Code hook 触发
+    ▼
+left-skills hook(三数据源)
+  - UserPromptExpansion.command_name   (手动 /slash)
+  - PreToolUse.tool_input.skill        (AI 调 Skill 工具)
+  - UserPromptSubmit.prompt            (自然语言提及)
+    │ 解析 payload,取 skill 名
+    ▼
+~/.left-skills/usage.json (append 记录)
+    │
+    ▼
+left-skills usage 报告(手动/AI/提及 分开 + 从未调用 ⚠)
 ```
 
-加 hook 配置(必需,否则没数据):
+## Installation
 
 ```bash
+npm i -g left-skills
 left-skills install   # 输出 hook 片段,复制进 ~/.claude/settings.json 的 hooks 字段
 ```
 
 详见 [docs/install.md](docs/install.md)。
 
-## Usage
+## Quick Start
 
 ```bash
 left-skills usage            # 人看报告
@@ -41,23 +58,38 @@ skill 调用报告(14 个 skill)
   0  gitlab-ci-generate  ⚠ 从未调用
 ```
 
-## 它做什么
+## Highlights
 
-- hook 埋点统计 skill 调用,三数据源:
-  - 手动 `/slash` → `UserPromptExpansion.command_name`
-  - AI 调 Skill 工具 → `PreToolUse.tool_input.skill`
-  - 自然语言提 skill → `UserPromptSubmit.prompt` 文本匹配
-- 存 `~/.left-skills/usage.json`
-- 出报告:每 skill 调用次数(手动 / AI / 提及**分开标**) + 最近时间 + 从未调用 ⚠
+- **三数据源 hook 埋点**:手动 /slash、AI 调 Skill、自然语言提及,分开记
+- **诚实报告**:手动/AI/提及 分开标(不混"调用次数"),从未调用 ⚠
+- **给 AI 用**:`--json` 输出,AI 能解析决策(改/删 skill)
+- **单文件 bundle**:TS 打包单 `.js`,随 skill 生态分发
 
-**边界**:AI 纯 progressive disclosure 自主激活(不走 Skill 工具)抓不到;只 Claude Code(Codex 后扩)。
+## Limitations
 
-## More
+- 只 **Claude Code**(Cursor / Codex 后扩)
+- **AI 纯 progressive disclosure 自主激活**(不走 Skill 工具)抓不到——只手动 /slash + AI 调 Skill 工具 + 自然语言提及
+- 需装 hook 配置(用户加 settings.json)
+- MVP 期(早期,API 可能变)
 
-- [roadmap](docs/roadmap.md) — 五环(usage → lint → evolve → inspiration)+ BDD
-- [研究依据](docs/research.md) / [技术选型报告](docs/hyperresearch-report.md)
-- 互补 [skillshare](https://github.com/runkids/skillshare)(分发)/ [OpenSpec](https://github.com/Fission-AI/OpenSpec)(spec)/ [superpowers](https://github.com/obra/superpowers)(方法论),不竞争
+## Contributing
+
+PR 欢迎。开发:
+
+```bash
+git clone https://github.com/cuikexi/left-skills
+cd left-skills
+npm install
+npm run build
+npm link   # 本地 left-skills 进 PATH
+```
+
+提 PR 前 `npm run build` 确保 dist 最新。理念 / roadmap 见 [docs/roadmap.md](docs/roadmap.md)。
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cuikexi/left-skills&type=Date)](https://star-history.com/#cuikexi/left-skills&date)
 
 ## License
 
-MIT
+[MIT](./LICENSE)
