@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6 (2026-06-29)
+
+- npm publish --provenance(显式触发 OIDC)
+
 ## 0.1.5 (2026-06-29)
 
 - workflow 用 $NPM_CONFIG_USERCONFIG 路径删 _authToken(之前操作 cwd .npmrc 错)

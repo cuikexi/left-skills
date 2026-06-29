@@ -22,21 +22,19 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Debug env(看 NODE_AUTH_TOKEN / OIDC)
+      - name: npm publish(强制 OIDC:unset token + 删 .npmrc _authToken + --provenance 触发 OIDC)
         run: |
-          echo "=== env (token 相关) ==="
-          env | grep -i token || echo "(无 token env)"
-          echo "=== .npmrc (NPM_CONFIG_USERCONFIG=$NPM_CONFIG_USERCONFIG) ==="
-          cat "$NPM_CONFIG_USERCONFIG" || echo "(无 .npmrc)"
-
-      - name: npm publish(强制 OIDC:unset token + 删 .npmrc _authToken)
-        run: |
+          echo "=== npm/node 版本 ==="
+          npm --version
+          node --version
           unset NODE_AUTH_TOKEN
           sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG" || true
           echo "=== .npmrc(删 _authToken 后) ==="
           cat "$NPM_CONFIG_USERCONFIG"
-          echo "=== NODE_AUTH_TOKEN(应空): ${NODE_AUTH_TOKEN:-<empty>} ==="
-          npm publish --access public
+          echo "=== OIDC env ==="
+          env | grep -i ACTIONS_ID_TOKEN || echo "(无 OIDC env)"
+          echo "=== npm publish --provenance(OIDC)==="
+          npm publish --access public --provenance
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
