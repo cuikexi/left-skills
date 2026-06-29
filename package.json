@@ -1,6 +1,6 @@
 {
   "name": "left-skills",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "给 AI 用的 skill 生命周期管理工具 — MVP: skill 调用使用统计",
   "bin": {
     "left-skills": "./dist/cli.js"
@@ -22,7 +22,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cuikexi/left-skills"
+    "url": "git+https://github.com/cuikexi/left-skills.git"
   },
   "keywords": [
     "claude-code",
