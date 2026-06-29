@@ -1,7 +1,7 @@
 name: publish
 
-# 触发:push tag v* → CI 自动 build + npm publish(OIDC Trusted Publishing)+ GitHub release
-# 要 npm 11.5.1+ / node 22.14+(Trusted Publishing),用 node 24 装 npm 11
+# 触发:push tag v* → CI 自动 build + npm publish(OIDC Trusted Publishing,无 NPM_TOKEN)+ GitHub release
+# 要 npm 11.5.1+(Trusted Publishing),node 24 装 npm 11
 on:
   push:
     tags:
@@ -18,22 +18,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'   # node 24 → npm 11+(Trusted Publishing 要 npm 11.5.1+)
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
-
-      - name: npm publish(OIDC Trusted Publishing,npm 11 自动 OIDC)
+      - name: npm publish(OIDC Trusted Publishing)
         run: |
-          echo "=== npm/node 版本(要 npm 11.5.1+) ==="
-          npm --version
-          node --version
           # unset token + 删 .npmrc _authToken,确保 npm 走 OIDC(不 fallback token)
           unset NODE_AUTH_TOKEN
           sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG" || true
-          echo "=== npm publish(OIDC,trusted publisher 已配) ==="
-          npm publish --access public   # npm 11 + trusted publisher → OIDC 自动,provenance 自动
-
+          npm publish --access public
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:

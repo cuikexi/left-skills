@@ -3,13 +3,14 @@
 import { Command } from 'commander';
 import { readStdinPayload, handleUserPromptExpansion, handlePreToolUse, handleUserPromptSubmit } from './hooks.js';
 import { buildReport, formatHuman } from './report.js';
+import pkg from '../package.json';
 
 const program = new Command();
 
 program
   .name('left-skills')
   .description('给 AI 用的 skill 生命周期管理工具 — MVP: skill 调用使用统计')
-  .version('0.1.0');
+  .version(pkg.version);
 
 // usage 子命令(group 4):skill 调用使用报告
 program

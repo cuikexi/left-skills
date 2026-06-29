@@ -19,6 +19,6 @@
 
 ## 3. 验
 
-- [ ] 3.1 `npm i -g left-skills` 在干净环境装(不 clone 源码)
-- [ ] 3.2 跑 `left-skills usage`(装后能用)
-- [ ] 3.3 README 验:badge / 命名由来 / 原理 / Install npm i-g / Contributing / Star 底部 / 结构齐全
+- [x] 3.1 `npm i -g left-skills` 在干净环境装(不 clone 源码)
+- [x] 3.2 跑 `left-skills usage`(装后能用)
+- [x] 3.3 README 验:badge / 命名由来 / 原理 / Install npm i-g / Contributing / Star 底部 / 结构齐全
