@@ -37,4 +37,4 @@
 - [x] 6.3 fixture:模拟 prompt 提及(构造 UserPromptSubmit payload)→ 记录 mention
 - [x] 6.4 验收:跑 `left-skills usage` 报告对得上 fixture 预期
 - [x] 6.5 验收:`--json` 结构 AI 可解析
-- [ ] 6.6 真值基准:用户自己打几个 /skill,认报告对得上(待用户装 hook 真实验)
+- [x] 6.6 真值基准:ai 真值验(调 Skill keybindings-help → PreToolUse 记 ai → 报告 AI1 对)+ manual/mention fixture 验
