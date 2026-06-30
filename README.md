@@ -43,6 +43,13 @@ left-skills install --write   # auto-config hooks into ~/.claude/settings.json (
 
 > Don't want auto-write? `left-skills install` prints a snippet to add manually. See [docs/install.md](docs/install.md).
 
+## Uninstall
+
+```bash
+left-skills uninstall           # remove hooks (backup .bak)
+npm uninstall -g left-skills    # remove binary
+```
+
 ## Quick Start
 
 ```bash

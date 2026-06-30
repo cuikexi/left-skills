@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import { readStdinPayload, handleUserPromptExpansion, handlePreToolUse, handleUserPromptSubmit } from './hooks.js';
 import { buildReport, formatHuman } from './report.js';
-import { hookSnippet, writeHooksToSettings, globalSettingsPath } from './install.js';
+import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSettingsPath } from './install.js';
 import pkg from '../package.json';
 
 const program = new Command();
@@ -29,7 +29,7 @@ program
     }
   });
 
-// install 子命令:输出 hook 片段(默认,手动加)或 --write 自动写(合并+备份)
+// install 子命令:输出 hook 片段(默认)或 --write 自动写(合并+备份)
 program
   .command('install')
   .description('输出 hook 配置片段(默认)或 --write 自动写进 ~/.claude/settings.json(合并+备份 .bak)')
@@ -44,6 +44,17 @@ program
       console.log(JSON.stringify(hookSnippet(), null, 2));
       console.log('\n# 把上面片段加进 ~/.claude/settings.json 的 hooks 字段,或跑 left-skills install --write 自动写');
     }
+  });
+
+// uninstall 子命令:删 left-skills hook(干净卸载,对偶 install --write)
+program
+  .command('uninstall')
+  .description('删 ~/.claude/settings.json 的 left-skills hook(干净卸载,备份 .bak)')
+  .action(() => {
+    const path = globalSettingsPath();
+    removeHooksFromSettings(path);
+    console.log(`✓ left-skills hook 已从 ${path} 删除(已备份 .bak)`);
+    console.log('  再跑 npm uninstall -g left-skills 卸载 binary');
   });
 
 // hook 子命令:读 stdin payload,按事件分发

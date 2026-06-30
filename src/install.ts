@@ -53,6 +53,29 @@ export function writeHooksToSettings(settingsPath: string): void {
   writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', 'utf-8');
 }
 
+// 删 left-skills hook(command 含 "left-skills" 的 entry,覆盖 "left-skills hook" + 绝对路径 "node /path/left-skills hook"),备份 .bak
+export function removeHooksFromSettings(settingsPath: string): void {
+  if (!existsSync(settingsPath)) return; // 无 settings,无需删
+  copyFileSync(settingsPath, settingsPath + '.bak'); // 备份
+  let settings: any = {};
+  try {
+    settings = JSON.parse(readFileSync(settingsPath, 'utf-8'));
+  } catch {
+    return;
+  }
+  if (!settings.hooks) return; // 无 hooks,无需删
+  // 遍历各 event,删 command 含 "left-skills" 的 hook;entry.hooks 空则删 entry;event 空则删 key
+  for (const event of Object.keys(settings.hooks)) {
+    settings.hooks[event] = settings.hooks[event].filter((entry: any) => {
+      entry.hooks = (entry.hooks || []).filter((h: any) => !(h.command && h.command.includes('left-skills')));
+      return entry.hooks.length > 0;
+    });
+    if (settings.hooks[event].length === 0) delete settings.hooks[event];
+  }
+  if (Object.keys(settings.hooks).length === 0) delete settings.hooks; // hooks 空 删 key
+  writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', 'utf-8');
+}
+
 // 默认全局 settings 路径
 export function globalSettingsPath(): string {
   return join(homedir(), '.claude', 'settings.json');
