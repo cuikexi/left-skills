@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (2026-06-30)
+
+- `left-skills uninstall`:删 `~/.claude/settings.json` 的 left-skills hook(对偶 `install --write`,备份 `.bak`),干净卸载
+
 ## 0.1.9 (2026-06-30)
 
 - `left-skills install --write`:自动写 hook 到 `~/.claude/settings.json`(合并去重 + 备份 `.bak`),不用手抄 JSON
