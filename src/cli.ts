@@ -2,8 +2,9 @@
 // left-skills CLI 入口
 import { Command } from 'commander';
 import { readStdinPayload, handleUserPromptExpansion, handlePreToolUse, handleUserPromptSubmit } from './hooks.js';
-import { buildReport, formatHuman } from './report.js';
+import { buildReport, formatHuman, formatMarkdown } from './report.js';
 import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSettingsPath } from './install.js';
+import { runDoctor } from './doctor.js';
 import pkg from '../package.json';
 
 const program = new Command();
@@ -26,6 +27,31 @@ program
       console.log(JSON.stringify(report));
     } else {
       console.log(formatHuman(report));
+    }
+  });
+
+// report 子命令:导出 usage 报告 markdown(分享/贴图)
+program
+  .command('report')
+  .description('导出 usage 报告 markdown(可 > report.md 分享)')
+  .option('--markdown', '输出 markdown(默认即 markdown)')
+  .option('--since <days>', '时间窗口(天,默认 30)', '30')
+  .action((opts) => {
+    const since = parseInt(opts.since, 10) || 30;
+    const report = buildReport(since);
+    console.log(formatMarkdown(report));
+  });
+
+// doctor 子命令:诊断安装/hook 配置
+program
+  .command('doctor')
+  .description('诊断 left-skills 安装/hook 配置(✓/✗ + 修复建议)')
+  .action(() => {
+    const results = runDoctor();
+    for (const r of results) {
+      const mark = r.ok ? '✓' : '✗';
+      console.log(`${mark} ${r.name}: ${r.detail}`);
+      if (r.fix) console.log(`    → 修复: ${r.fix}`);
     }
   });
 

@@ -43,3 +43,21 @@ function relativeTime(iso: string): string {
   if (days === 1) return '1 天前';
   return `${days} 天前`;
 }
+
+// 导出 usage 报告 markdown(分享/贴图/团队)
+export function formatMarkdown(report: ReturnType<typeof buildReport>): string {
+  const lines: string[] = [];
+  lines.push(`# left-skills usage report`);
+  lines.push('');
+  lines.push(`Generated: ${report.generated_at}  |  Skills: ${report.skills.length}`);
+  lines.push('');
+  lines.push('| skill | manual | AI | mention | total | last |');
+  lines.push('|---|---|---|---|---|---|');
+  for (const s of report.skills) {
+    const total = s.manual + s.ai + s.mention;
+    const last = s.last_used ? relativeTime(s.last_used) : '-';
+    const mark = total === 0 ? ' ⚠' : '';
+    lines.push(`| ${s.name}${mark} | ${s.manual} | ${s.ai} | ${s.mention} | ${total} | ${last} |`);
+  }
+  return lines.join('\n');
+}
