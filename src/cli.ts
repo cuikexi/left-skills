@@ -5,6 +5,7 @@ import { readStdinPayload, handleUserPromptExpansion, handlePreToolUse, handleUs
 import { buildReport, formatHuman, formatMarkdown } from './report.js';
 import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSettingsPath } from './install.js';
 import { runDoctor } from './doctor.js';
+import { lintAll, formatLintHuman } from './lint.js';
 import pkg from '../package.json';
 
 const program = new Command();
@@ -28,6 +29,15 @@ program
     } else {
       console.log(formatHuman(report));
     }
+  });
+
+// lint 子命令:静态质量检查(定义好坏,v1a)
+program
+  .command('lint')
+  .description('静态质量检查 SKILL.md(对齐 skills-ref + 补深度,0-100 分)')
+  .action(() => {
+    const results = lintAll();
+    console.log(formatLintHuman(results));
   });
 
 // report 子命令:导出 usage 报告 markdown(分享/贴图)
