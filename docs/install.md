@@ -14,25 +14,11 @@ npx left-skills usage
 
 ## 2. 加 hook 配置(必需,否则没数据)
 
-把下面片段加进 `~/.claude/settings.json`(或项目 `.claude/settings.json`)的 `hooks` 字段:
-
-```json
-{
-  "hooks": {
-    "UserPromptExpansion": [
-      { "matcher": ".*", "hooks": [{ "type": "command", "command": "left-skills hook UserPromptExpansion" }] }
-    ],
-    "PreToolUse": [
-      { "matcher": "Skill", "hooks": [{ "type": "command", "command": "left-skills hook PreToolUse" }] }
-    ],
-    "UserPromptSubmit": [
-      { "hooks": [{ "type": "command", "command": "left-skills hook UserPromptSubmit" }] }
-    ]
-  }
-}
+```bash
+left-skills install --write   # 自动配 hook 到 ~/.claude/settings.json(合并去重 + 备份 .bak)
 ```
 
-或跑 `left-skills install` 输出片段,复制进 settings.json。
+> 不想自动写?`left-skills install` 输出片段,手动加进 `~/.claude/settings.json` 的 `hooks` 字段。
 
 ## 3. 用
 

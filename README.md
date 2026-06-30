@@ -36,10 +36,10 @@ left-skills usage 报告(手动/AI/提及 分开 + 从未调用 ⚠)
 
 ```bash
 npm i -g left-skills
-left-skills install   # 输出 hook 片段,复制进 ~/.claude/settings.json 的 hooks 字段
+left-skills install --write   # 自动配 hook 到 ~/.claude/settings.json(合并去重 + 备份 .bak)
 ```
 
-详见 [docs/install.md](docs/install.md)。
+> 不想自动写?`left-skills install` 输出片段手动加。详见 [docs/install.md](docs/install.md)。
 
 ## Quick Start
 
