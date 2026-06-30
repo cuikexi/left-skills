@@ -56,6 +56,8 @@ npm uninstall -g left-skills    # remove binary
 left-skills usage            # human-readable report
 left-skills usage --json     # for AI (JSON)
 left-skills usage --since 7  # last 7 days
+left-skills doctor           # diagnose install (✓/✗ + fix)
+left-skills report --markdown > report.md  # export report
 ```
 
 Example:

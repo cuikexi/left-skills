@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 (2026-06-30)
+
+- `left-skills doctor`:诊断安装/hook 配置(5 项深 self-check:binary/hook/usage/hook 能跑/node,✓/✗ + 建议)
+- `left-skills report --markdown`:导出 usage 报告 markdown(> report.md 分享)
+
 ## 0.2.0 (2026-06-30)
 
 - `left-skills uninstall`:删 `~/.claude/settings.json` 的 left-skills hook(对偶 `install --write`,备份 `.bak`),干净卸载

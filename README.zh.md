@@ -56,6 +56,8 @@ npm uninstall -g left-skills    # 卸 binary
 left-skills usage            # 人看报告
 left-skills usage --json     # AI 用(JSON)
 left-skills usage --since 7  # 近 7 天
+left-skills doctor           # 诊断安装(✓/✗ + 建议)
+left-skills report --markdown > report.md  # 导出报告
 ```
 
 报告示例:
