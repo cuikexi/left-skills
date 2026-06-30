@@ -57,6 +57,7 @@ left-skills usage            # human-readable report
 left-skills usage --json     # for AI (JSON)
 left-skills usage --since 7  # last 7 days
 left-skills lint             # static quality check (0-100 score)
+left-skills evolve <skill>   # generate improvement prompt (for AI, human review)
 left-skills doctor           # diagnose install (✓/✗ + fix)
 left-skills report --markdown > report.md  # export report
 ```

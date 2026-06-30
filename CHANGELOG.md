@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 (2026-07-01)
+
+- `left-skills evolve <skill>`:收集 usage+lint 信号 → 输出改进 prompt(给 AI,人审,不 LLM,不自动改)
+
 ## 0.4.0 (2026-06-30)
 
 - `left-skills lint`:静态质量检查 SKILL.md(对齐 skills-ref:name kebab/dir-match/description;补深度:metadata/argument-hint/token,0-100 分)
