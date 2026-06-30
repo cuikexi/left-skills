@@ -6,6 +6,7 @@ import { buildReport, formatHuman, formatMarkdown } from './report.js';
 import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSettingsPath } from './install.js';
 import { runDoctor } from './doctor.js';
 import { lintAll, formatLintHuman } from './lint.js';
+import { evolvePrompt } from './evolve.js';
 import pkg from '../package.json';
 
 const program = new Command();
@@ -38,6 +39,14 @@ program
   .action(() => {
     const results = lintAll();
     console.log(formatLintHuman(results));
+  });
+
+// evolve 子命令:收集 usage+lint 信号 → 输出改进 prompt(给 AI,人审)
+program
+  .command('evolve <skill>')
+  .description('收集 usage+lint 信号,输出改进 prompt(给 AI,人审,不自动改)')
+  .action((skill) => {
+    console.log(evolvePrompt(skill));
   });
 
 // report 子命令:导出 usage 报告 markdown(分享/贴图)
