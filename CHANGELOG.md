@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.9 (2026-06-30)
+
+- `left-skills install --write`:自动写 hook 到 `~/.claude/settings.json`(合并去重 + 备份 `.bak`),不用手抄 JSON
+
 ## 0.1.8 (2026-06-30)
 
 - 修 `--version` 硬编码(动态读 package.json)
