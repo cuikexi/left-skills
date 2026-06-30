@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 (2026-06-30)
+
+- `left-skills lint`:静态质量检查 SKILL.md(对齐 skills-ref:name kebab/dir-match/description;补深度:metadata/argument-hint/token,0-100 分)
+
 ## 0.3.0 (2026-06-30)
 
 - `left-skills doctor`:诊断安装/hook 配置(5 项深 self-check:binary/hook/usage/hook 能跑/node,✓/✗ + 建议)
