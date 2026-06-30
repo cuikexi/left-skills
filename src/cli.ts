@@ -3,6 +3,7 @@
 import { Command } from 'commander';
 import { readStdinPayload, handleUserPromptExpansion, handlePreToolUse, handleUserPromptSubmit } from './hooks.js';
 import { buildReport, formatHuman } from './report.js';
+import { hookSnippet, writeHooksToSettings, globalSettingsPath } from './install.js';
 import pkg from '../package.json';
 
 const program = new Command();
@@ -12,7 +13,7 @@ program
   .description('给 AI 用的 skill 生命周期管理工具 — MVP: skill 调用使用统计')
   .version(pkg.version);
 
-// usage 子命令(group 4):skill 调用使用报告
+// usage 子命令:skill 调用使用报告
 program
   .command('usage')
   .description('skill 调用使用报告')
@@ -28,7 +29,24 @@ program
     }
   });
 
-// hook 子命令(group 2):读 stdin payload,按事件分发
+// install 子命令:输出 hook 片段(默认,手动加)或 --write 自动写(合并+备份)
+program
+  .command('install')
+  .description('输出 hook 配置片段(默认)或 --write 自动写进 ~/.claude/settings.json(合并+备份 .bak)')
+  .option('--write', '自动写 hook 到 settings.json(合并去重 + 备份 .bak)', false)
+  .action((opts) => {
+    if (opts.write) {
+      const path = globalSettingsPath();
+      writeHooksToSettings(path);
+      console.log(`✓ hook 已写入 ${path}(已备份 .bak)`);
+      console.log('  打 /skill 或 AI 调 skill 会自动记录,跑 left-skills usage 看报告');
+    } else {
+      console.log(JSON.stringify(hookSnippet(), null, 2));
+      console.log('\n# 把上面片段加进 ~/.claude/settings.json 的 hooks 字段,或跑 left-skills install --write 自动写');
+    }
+  });
+
+// hook 子命令:读 stdin payload,按事件分发
 program
   .command('hook <event>')
   .description('hook 入口(读 stdin payload)')
@@ -48,27 +66,6 @@ program
       default:
         break;
     }
-  });
-
-// install 子命令(group 5):输出 hook 配置片段,用户复制进 settings.json
-program
-  .command('install')
-  .description('输出 hook 配置片段(加进 ~/.claude/settings.json 的 hooks 字段)')
-  .action(() => {
-    const cmd = 'left-skills hook';
-    console.log(JSON.stringify({
-      hooks: {
-        UserPromptExpansion: [
-          { matcher: '.*', hooks: [{ type: 'command', command: `${cmd} UserPromptExpansion` }] },
-        ],
-        PreToolUse: [
-          { matcher: 'Skill', hooks: [{ type: 'command', command: `${cmd} PreToolUse` }] },
-        ],
-        UserPromptSubmit: [
-          { hooks: [{ type: 'command', command: `${cmd} UserPromptSubmit` }] },
-        ],
-      },
-    }, null, 2));
   });
 
 program.parse();
