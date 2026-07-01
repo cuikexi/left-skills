@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import { readStdinPayload, handleUserPromptExpansion, handlePreToolUse, handleUserPromptSubmit } from './hooks.js';
 import { buildReport, formatHuman, formatMarkdown } from './report.js';
-import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSettingsPath } from './install.js';
+import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSettingsPath, writeSkillWrapper, removeSkillWrapper } from './install.js';
 import { runDoctor } from './doctor.js';
 import { lintAll, formatLintHuman } from './lint.js';
 import { evolvePrompt } from './evolve.js';
@@ -94,7 +94,9 @@ program
     if (opts.write) {
       const path = globalSettingsPath();
       writeHooksToSettings(path);
+      writeSkillWrapper();
       console.log(`✓ hook 已写入 ${path}(已备份 .bak)`);
+      console.log(`✓ skill wrapper 已放 ~/.claude/skills/left-skills/SKILL.md(/left-skills slash 触发)`);
       console.log('  打 /skill 或 AI 调 skill 会自动记录,跑 left-skills usage 看报告');
     } else {
       console.log(JSON.stringify(hookSnippet(), null, 2));
@@ -109,7 +111,9 @@ program
   .action(() => {
     const path = globalSettingsPath();
     removeHooksFromSettings(path);
+    removeSkillWrapper();
     console.log(`✓ left-skills hook 已从 ${path} 删除(已备份 .bak)`);
+    console.log(`✓ skill wrapper 已删 ~/.claude/skills/left-skills/`);
     console.log('  再跑 npm uninstall -g left-skills 卸载 binary');
   });
 
