@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0 (2026-07-01)
+
+- `inspire` hybrid 打磨:正则粗筛骨架 + LLM 精提候选(Anthropic API,复用 ANTHROPIC_API_KEY)+ OBSERVE(已装名单)+ all tools(tool 序列,不只 Bash)+ quality/test 指令
+
 ## 0.6.0 (2026-07-01)
 
 - `left-skills inspire`:扫会话日志找重复 Bash command(≥30 字符,≥3 次)→ 输出 prompt 提议写 skill(不 LLM,人审)
