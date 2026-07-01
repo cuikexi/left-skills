@@ -1,32 +1,42 @@
 ## Context
 
-left-skills 0.8.0 有 llm.ts(调 Anthropic API,token/代理/模型名问题 → LLM 降级)。定位"skill 中运行"→ Claude Code 本身是 LLM → 删 llm.ts,binary 只逻辑,AI 分析。入口都是 skill 触发(/left-skills)。
+left-skills 0.8.0 有 llm.ts(调 Anthropic API,token/代理/模型名问题)。定位"skill 中运行"→ Claude Code 本身是 LLM → 删 llm.ts。CLI 是数据工具箱(小命令,不 LLM),skill 是入口(AI 组合 CLI + AI 分析)。
 
 ## Goals / Non-Goals
 
 **Goals:**
 - 删 llm.ts(不调 LLM,不 token)
-- CLI 只逻辑(数据采集 + --json 输出)
-- SKILL.md 是推荐入口(/left-skills → AI 跑 CLI → AI 分析 → 人审)
-- 每个命令 --json(AI 消费)
+- 删 inspire/evolve CLI(LLM 含义名,CLI 不做 LLM)
+- 加 scan(扫 jsonl,bash+sequences 合并)+ list-skills(列已装)+ lint --json
+- SKILL.md 是推荐入口(/left-skills → AI 跑 CLI --json → AI 分析 → 人审)
 
 **Non-Goals:**
-- 不删 CLI(保留,逻辑层 + hook 埋点)
+- 不删 CLI(保留,数据工具箱 + hook 埋点)
 - 不自动改 skill(人审红线)
-- 不做终端 CLI 为主入口(SKILL.md 是推荐入口)
 
 ## Decisions
 
 1. **三层架构**:
    - 入口层:SKILL.md(/left-skills slash,推荐用户用)
-   - 逻辑层:CLI(left-skills <命令> --json,数据采集,不 token)
+   - 逻辑层:CLI(数据工具箱,小命令,不 LLM)
    - 智能层:AI(Claude Code LLM,读 JSON 分析)
-2. **删 llm.ts**:inspire/evolve 不调 LLM,只输出 --json 数据
-3. **--json 每命令**:usage(已有)+ lint/inspire/evolve(加)
-4. **SKILL.md body**:AI 跑 `left-skills <命令> --json` → AI 读 JSON → AI 分析 → 人审
+2. **CLI 数据工具箱**(按数据源拆,不按输出拆):
+   - `scan --json` — 扫 jsonl 一次,出 Bash 重复 + tool 序列(同源合并)
+   - `list-skills --json` — 扫 .claude/skills(独立)
+   - `usage --json` — 已有(全局)
+   - `lint --json` — 已有加 --json(全局)
+   - doctor/report/install/uninstall/hook — 已有(不变)
+3. **删 inspire/evolve/llm.ts**:
+   - inspire → AI 组合 scan + list-skills(数据)+ AI 判断
+   - evolve → AI 组合 usage + lint(全局,AI 过滤 skill)+ AI 判断
+4. **SKILL.md body 写死组合**(AI 按表跑,不"AI 自选"):
+   - /left-skills inspire → AI 跑 scan + list-skills --json
+   - /left-skills evolve → AI 跑 usage + lint --json(过滤 skill)
+   - /left-skills lint → AI 跑 lint --json
+   - /left-skills usage → AI 跑 usage --json
 
 ## Risks / Trade-offs
 
-- [CLI 不调 LLM → AI 要读 JSON 分析] → AI(Claude Code)就是 LLM,读 JSON 分析(不 left-skills 调)
-- [--json 格式] → 每命令 JSON schema(inspire/evolve/lint/usage)
-- [CLI 仍需(hook + 数据)] → hook 埋点 + 数据采集,CLI 保留(逻辑层)
+- [AI 跑多个 CLI] → scan + list-skills(2 次,可接受;同源合并 scan,不重复 I/O)
+- [全局 usage/lint + AI 过滤] → 数据小(15 skill),AI 读全局过滤单个,够
+- [SKILL.md 写死组合] → 清晰(AI 按表跑),但 binary 加命令后 SKILL.md 要跟(后维护)
