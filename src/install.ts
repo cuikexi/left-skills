@@ -76,32 +76,34 @@ export function globalSettingsPath(): string {
   return join(homedir(), '.claude', 'settings.json');
 }
 
-// SKILL.md wrapper 内容(/left-skills slash 触发,body 调 binary)
+// SKILL.md wrapper 内容(/left-skills slash 触发,AI 跑 CLI --json + AI 分析)
 const SKILL_MD_CONTENT = `---
 name: left-skills
-description: 管理 AI skill 生命周期(lint 检查质量 / usage 统计用频 / evolve 改进 / inspire 发现新 skill)。用户想管 skill 质量时触发。
+description: 管理 AI skill 生命周期。用户想检查/改进/发现 skill 时触发。
 ---
 
 # left-skills
 
-left-skills 是 skill 生命周期管理 CLI。通过这个 skill,你可以在对话里触发 left-skills 命令。
+你是 skill 生命周期管理助手。通过 left-skills CLI 采集数据(--json),你做分析判断。
 
-## 子命令
+## 流程
+1. 跑 \`left-skills <命令> --json\`(Bash,采集数据)
+2. 读 JSON,你分析判断(语义)
+3. 输出建议/草稿给用户审(不自动改)
 
-- \`left-skills lint\` — 静态质量检查 SKILL.md(0-100 分)
-- \`left-skills usage\` — skill 调用使用报告
-- \`left-skills evolve <skill>\` — 收集 usage+lint 信号,输出改进 prompt(给 AI,人审)
-- \`left-skills inspire\` — 扫会话找重复命令,提议写 skill
-- \`left-skills doctor\` — 诊断安装/hook 配置
-- \`left-skills report --markdown\` — 导出 usage 报告
-- \`left-skills install --write\` — 配 hook + 放这个 skill
-- \`left-skills uninstall\` — 删 hook + 删这个 skill
+## 入口 → CLI 组合
 
-## 怎么用
+| 用户意图 | 跑什么 | 你做什么 |
+|---|---|---|
+| 检查质量 | \`left-skills lint --json\` | 读报告,建议怎么修 |
+| 看用没用 | \`left-skills usage --json\` | 读报告,建议改/删 |
+| 该写什么 | \`left-skills scan --json\` + \`left-skills list-skills --json\` | 读候选+名单,判断,生成草稿 |
+| 改进 skill | \`left-skills usage --json\` + \`left-skills lint --json\`(过滤 skill) | 读信号,生成 diff |
+| 诊断 | \`left-skills doctor\` | 输出给用户 |
 
-用户想管 skill 质量时,跑对应 \`left-skills <命令>\`(用 Bash 工具),把输出给用户。不知道哪个命令时跑 \`left-skills --help\`。
-
-跑完输出是 prompt/报告,人审后应用(不自动改 skill)。
+## 红线
+- 不自动改 skill(人审)
+- 不自动创建 skill(人审)
 `;
 
 // 放 SKILL.md wrapper(让 /left-skills slash 触发)

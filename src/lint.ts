@@ -124,3 +124,8 @@ export function formatLintHuman(results: LintResult[]): string {
   }
   return lines.join('\n');
 }
+
+// 格式化 JSON(AI 用)
+export function formatLintJson(results: LintResult[]): string {
+  return JSON.stringify({ skills: results });
+}
