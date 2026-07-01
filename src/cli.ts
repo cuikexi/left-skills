@@ -50,14 +50,14 @@ program
     console.log(evolvePrompt(skill));
   });
 
-// inspire 子命令:扫会话找重复命令 → 提议写 skill(给 AI,人审)
+// inspire 子命令:扫会话找重复命令 → hybrid(正则粗筛 + LLM 精提)→ 提议写 skill(给 AI,人审)
 program
   .command('inspire')
-  .description('扫会话找重复命令,提议写 skill(给 AI,人审,不自动创建)')
+  .description('扫会话找重复命令,提议写 skill(hybrid 正则+LLM,给 AI,人审,不自动创建)')
   .option('--since <days>', '时间窗口(天,默认 30)', '30')
-  .action((opts) => {
+  .action(async (opts) => {
     const since = parseInt(opts.since, 10) || 30;
-    console.log(inspirePrompt(since));
+    console.log(await inspirePrompt(since));
   });
 
 // report 子命令:导出 usage 报告 markdown(分享/贴图)
