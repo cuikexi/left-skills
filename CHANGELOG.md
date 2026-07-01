@@ -1,8 +1,8 @@
+# Changelog
+
 ## 0.8.0 (2026-07-01)
 
 - SKILL.md wrapper:install --write 自动放 ~/.claude/skills/left-skills/SKILL.md(/left-skills slash 触发,body 调 binary)
-
-# Changelog
 
 ## 0.7.0 (2026-07-01)
 
