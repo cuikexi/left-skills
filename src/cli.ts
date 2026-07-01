@@ -7,13 +7,14 @@ import { hookSnippet, writeHooksToSettings, removeHooksFromSettings, globalSetti
 import { runDoctor } from './doctor.js';
 import { lintAll, formatLintHuman } from './lint.js';
 import { evolvePrompt } from './evolve.js';
+import { inspirePrompt } from './inspire.js';
 import pkg from '../package.json';
 
 const program = new Command();
 
 program
   .name('left-skills')
-  .description('给 AI 用的 skill 生命周期管理工具 — MVP: skill 调用使用统计')
+  .description('给 AI 用的 skill 生命周期管理工具 — skill 调用使用统计')
   .version(pkg.version);
 
 // usage 子命令:skill 调用使用报告
@@ -47,6 +48,16 @@ program
   .description('收集 usage+lint 信号,输出改进 prompt(给 AI,人审,不自动改)')
   .action((skill) => {
     console.log(evolvePrompt(skill));
+  });
+
+// inspire 子命令:扫会话找重复命令 → 提议写 skill(给 AI,人审)
+program
+  .command('inspire')
+  .description('扫会话找重复命令,提议写 skill(给 AI,人审,不自动创建)')
+  .option('--since <days>', '时间窗口(天,默认 30)', '30')
+  .action((opts) => {
+    const since = parseInt(opts.since, 10) || 30;
+    console.log(inspirePrompt(since));
   });
 
 // report 子命令:导出 usage 报告 markdown(分享/贴图)
