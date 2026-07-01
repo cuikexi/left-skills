@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 (2026-07-01)
+
+- `left-skills inspire`:扫会话日志找重复 Bash command(≥30 字符,≥3 次)→ 输出 prompt 提议写 skill(不 LLM,人审)
+- **五环完整**:lint(定义好坏)+ usage(度量)+ evolve(改进)+ inspire(发现)—— 三痛点全解
+
 ## 0.5.0 (2026-07-01)
 
 - `left-skills evolve <skill>`:收集 usage+lint 信号 → 输出改进 prompt(给 AI,人审,不 LLM,不自动改)
