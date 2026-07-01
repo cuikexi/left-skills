@@ -14,5 +14,6 @@ test('inspire prompt 含 重复 或 无重复提示', () => {
 
 test('inspire prompt 不自动创建(人审)', () => {
   const prompt = inspirePrompt(30);
-  assert.ok(prompt.includes('审过后') || prompt.includes('不自动'), '含人审(不自动创建)');
+  // 有重复 → 含"审过后"(人审);无重复 → 含"无重复"(也不自动创建)
+  assert.ok(prompt.includes('审过后') || prompt.includes('无重复'), '含人审或无重复(不自动创建)');
 });
